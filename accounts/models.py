@@ -2,7 +2,7 @@ from ast import Store
 from django.db import models
 from django.contrib.auth.models import User
 from group.models import Branch , TypePro
-from sales.models import Product, Unit
+
 
 
 # Create your models here.
@@ -38,6 +38,11 @@ class Account(models.Model):
     update = models.DateTimeField(auto_now=True, auto_now_add=False)
     def __str__(self):
         return self.name
+class Item(models.Model):
+    name = models.CharField(max_length=200)
+    group = models.CharField(max_length=200)
+    type = models.ForeignKey(TypePro,on_delete=models.SET_NULL,null=True)
+
     
     
 
@@ -53,7 +58,7 @@ class Currency(models.Model):
     def __str__(self):
         return self.name
 class Balance(models.Model):
-    Account = models.ForeignKey(Account,on_delete=models.SET_NULL,null=True,related_name='creditor_order_set')
+    Account = models.ForeignKey(Account,on_delete=models.SET_NULL,null=True,related_name='currency_balance_set')
     currency = models.ForeignKey(Currency,on_delete=models.SET_NULL,null=True)
     balance  = models.DecimalField(max_digits=6, decimal_places=0)
 
@@ -103,12 +108,9 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,on_delete=models.SET_NULL,null=True)
-    product = models.ForeignKey(Product,on_delete=models.SET_NULL,null=True)
-    unit = models.ForeignKey(Unit,on_delete=models.SET_NULL,null=True)
+    product = models.ForeignKey(Item,on_delete=models.SET_NULL,null=True)
     quantity = models.DecimalField(max_digits=10, decimal_places=0, default=0, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=0, default=0,null=True)
-    stors = models.ForeignKey(Store,on_delete=models.SET_NULL,null=True)
-    attached = models.IntegerField(null= True)
     note = models.TextField(null=True)
     success = models.BooleanField(default=False, null=True) 
     attached = models.ImageField( upload_to=None, height_field=None, width_field=None, max_length=None, null=True)
