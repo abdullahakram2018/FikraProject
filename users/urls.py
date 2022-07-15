@@ -5,5 +5,6 @@ app_name='users'
 urlpatterns = [
     path('add_user',views.register_api,name='add_user'),
     path('login',views.login_api,name='login'),
+    path('user',views.user,name='user'),
     
 ]

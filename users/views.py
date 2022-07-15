@@ -11,8 +11,10 @@ from knox.auth import AuthToken
 
 
 
-# Create your views here.
 
+# Create your views here.
+  
+ 
 @api_view(['POST'])
 def register_api(request):
     serialize = RegisterSerializer(data=request.data)
@@ -38,8 +40,9 @@ def login_api(request):
     profile = Profile.objects.get(user=user.id)
     
     
-    _ , token = AuthToken.objects.create(user)
+    
     if profile.success == True:
+        _ , token = AuthToken.objects.create(user)
         return Response({
             'user_info':{
                 'id':user.id,
@@ -51,14 +54,18 @@ def login_api(request):
     return Response({'error': 'not Success'},status=400)
 
 @api_view(['GET'])
-def get_user_data_api(request):
+def user(request):
     user = request.user
+    profile = Profile.objects.get(user=user.id)
     if user.is_authenticated:
         return Response({
         'user_info':{
             'id':user.id,
             'username':user.username,
-            'email':user.email
+            'email':user.email,
+            #'image':profile.image,
+            'phone_number':profile.phone_number,
+            'address':profile.address,
         },
         })
     return Response({'error': 'not authenticated'},status=400)
