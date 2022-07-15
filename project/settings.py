@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-q=dc&4afd*6qo(+jypqqvcu3!od_uiu=k8*zblj+x7(8!wsdy5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1','userstransport.herokuapp.com']
+ALLOWED_HOSTS = [ '127.0.0.1','userstransport.herokuapp.com']
 
 
 
@@ -64,9 +64,7 @@ MIDDLEWARE = [
 ]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=600)
-DATABASES['default'].update(db_from_env)
+
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [
